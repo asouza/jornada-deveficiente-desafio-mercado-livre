@@ -25,9 +25,14 @@ public class Usuario {
 	private Long id;
 	private @Email @NotBlank String email;
 	private @NotBlank @Length(min = 6) String senha;
-	@NotNull
+	//@NotNull
 	@PastOrPresent
 	private LocalDateTime instanteCriacao;
+	
+	@Deprecated
+	public Usuario() {
+
+	}
 
 	public Usuario(@Email @NotBlank String email,
 			@Valid @NotNull SenhaLimpa senhaLimpa) {
