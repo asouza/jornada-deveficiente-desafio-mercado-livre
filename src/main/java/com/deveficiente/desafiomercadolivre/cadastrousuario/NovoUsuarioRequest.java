@@ -4,6 +4,7 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 
 import org.hibernate.validator.constraints.Length;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 public class NovoUsuarioRequest {
 
@@ -22,7 +23,8 @@ public class NovoUsuarioRequest {
 	}
 
 	public Usuario toUsuario() {
-		return new Usuario(email,senha);
+		//como esse ponto do codigo sabe que tem que passar a senha limpa?
+		return new Usuario(email,new SenhaLimpa(senha));
 	}
 
 }
