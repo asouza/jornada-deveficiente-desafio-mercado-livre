@@ -27,4 +27,8 @@ public class NovoUsuarioRequest {
 		return new Usuario(email,new SenhaLimpa(senha));
 	}
 
+	public String getEmail() {
+		return email;
+	}
+
 }
