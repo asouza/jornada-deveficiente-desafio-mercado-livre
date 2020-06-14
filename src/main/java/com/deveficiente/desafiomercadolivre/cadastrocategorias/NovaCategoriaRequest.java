@@ -6,11 +6,16 @@ import javax.validation.constraints.Positive;
 
 import org.springframework.util.Assert;
 
+import com.deveficiente.desafiomercadolivre.compartilhado.ExistsId;
+import com.deveficiente.desafiomercadolivre.compartilhado.UniqueValue;
+
 public class NovaCategoriaRequest {
 
 	@NotBlank
+	@UniqueValue(domainClass=Categoria.class,fieldName="nome")
 	private String nome;	
 	@Positive
+	@ExistsId(domainClass = Categoria.class,fieldName = "id")
 	private Long idCategoriaMae;
 	
 	public void setNome(String nome) {
