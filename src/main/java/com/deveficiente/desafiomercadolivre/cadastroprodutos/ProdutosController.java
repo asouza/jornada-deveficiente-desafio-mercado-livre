@@ -2,6 +2,7 @@ package com.deveficiente.desafiomercadolivre.cadastroprodutos;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.transaction.Transactional;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,11 +29,13 @@ public class ProdutosController {
 	}
 
 	@PostMapping(value = "/produtos")
+	@Transactional
 	public String cria(@RequestBody @Valid NovoProdutoRequest request) {
 		//simulando o usuario logado
 		Usuario dono = usuarioRepository.findByEmail("alberto@deveficiente.com").get();		
 		Produto produto = request.toModel(manager,dono);
 		
+		manager.persist(produto);
 		return produto.toString();
 	}
 

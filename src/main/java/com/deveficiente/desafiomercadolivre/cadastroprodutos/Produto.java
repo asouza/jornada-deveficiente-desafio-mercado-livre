@@ -3,11 +3,14 @@ package com.deveficiente.desafiomercadolivre.cadastroprodutos;
 import java.math.BigDecimal;
 import java.util.Collection;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.validation.Valid;
@@ -22,8 +25,13 @@ import org.springframework.util.Assert;
 import com.deveficiente.desafiomercadolivre.cadastrocategorias.Categoria;
 import com.deveficiente.desafiomercadolivre.cadastrousuario.Usuario;
 
+@Entity
 public class Produto {
 
+	
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long id;
 	private @NotBlank String nome;
 	private @Positive int quantidade;
 	private @NotBlank @Length(max = 1000) String descricao;
@@ -31,12 +39,15 @@ public class Produto {
 	@NotNull
 	@Valid
 	@ManyToOne
+	//1
 	private Categoria categoria;
 	@NotNull
 	@Valid
 	@ManyToOne
+	//1
 	private Usuario dono;
 	@OneToMany(mappedBy = "produto",cascade = CascadeType.PERSIST)
+	//1
 	private Set<CaracteristicaProduto> caracteristicas = new HashSet<>();
 
 	public Produto(@NotBlank String nome, @Positive int quantidade,
@@ -51,18 +62,21 @@ public class Produto {
 		this.valor = valor;
 		this.categoria = categoria;
 		this.dono = dono;
+		//1
+		//1
 		this.caracteristicas.addAll(caracteristicas
 				.stream().map(caracteristica -> caracteristica.toModel(this))
 				.collect(Collectors.toSet()));
 		
+		//1
 		Assert.isTrue(this.caracteristicas.size() >= 3,"Todo produto precisa ter no mínimo 3 ou mais características");
 
 	}
 
 	@Override
 	public String toString() {
-		return "Produto [nome=" + nome + ", quantidade=" + quantidade
-				+ ", descricao=" + descricao + ", valor=" + valor
+		return "Produto [id=" + id + ", nome=" + nome + ", quantidade="
+				+ quantidade + ", descricao=" + descricao + ", valor=" + valor
 				+ ", categoria=" + categoria + ", dono=" + dono
 				+ ", caracteristicas=" + caracteristicas + "]";
 	}
