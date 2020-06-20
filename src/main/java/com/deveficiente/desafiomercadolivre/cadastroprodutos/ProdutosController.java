@@ -9,12 +9,14 @@ import javax.transaction.Transactional;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.server.ResponseStatusException;
 
 import com.deveficiente.desafiomercadolivre.cadastrousuario.Usuario;
 import com.deveficiente.desafiomercadolivre.cadastrousuario.UsuarioRepository;
@@ -63,8 +65,14 @@ public class ProdutosController {
 		 * 5) depois que associar eu preciso atualizar a nova versão do produto
 		 */
 		
-		Set<String> links = uploaderFake.envia(request.getImagens());
+		Usuario dono = usuarioRepository.findByEmail("alberto@deveficiente.com").get();		
 		Produto produto = manager.find(Produto.class, id);
+		
+		if(!produto.pertenceAoUsuario(dono)) {
+			throw new ResponseStatusException(HttpStatus.FORBIDDEN);
+		}
+		
+		Set<String> links = uploaderFake.envia(request.getImagens());
 		produto.associaImagens(links);
 		
 		manager.merge(produto);

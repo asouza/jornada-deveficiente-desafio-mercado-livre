@@ -123,4 +123,8 @@ public class Produto {
 		this.imagens.addAll(imagens);
 	}
 
+	public boolean pertenceAoUsuario(Usuario possivelDono) {
+		return this.dono.equals(possivelDono);
+	}
+
 }
