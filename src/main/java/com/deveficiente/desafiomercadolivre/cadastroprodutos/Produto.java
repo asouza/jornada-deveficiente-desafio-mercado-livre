@@ -49,6 +49,11 @@ public class Produto {
 	@OneToMany(mappedBy = "produto",cascade = CascadeType.PERSIST)
 	//1
 	private Set<CaracteristicaProduto> caracteristicas = new HashSet<>();
+	
+	@Deprecated
+	public Produto() {
+
+	}
 
 	public Produto(@NotBlank String nome, @Positive int quantidade,
 			@NotBlank @Length(max = 1000) String descricao,
