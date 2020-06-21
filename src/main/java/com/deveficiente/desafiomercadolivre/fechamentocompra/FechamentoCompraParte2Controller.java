@@ -17,14 +17,26 @@ public class FechamentoCompraParte2Controller {
 
 	@PostMapping(value = "/retorno-pagseguro/{id}")
 	@Transactional
+	//1
 	public String processamentoPagSeguro(@PathVariable("id") Long idCompra, @Valid RetornoPagseguroRequest request) {
-			
+		return processa(idCompra, request);
+	}
+	
+	@PostMapping(value = "/retorno-paypal/{id}")
+	@Transactional
+	//1
+	public String processamentoPaypal(@PathVariable("id") Long idCompra, @Valid RetornoPaypalRequest request) {
+		return processa(idCompra, request);
+	}
+	
+	//1
+	private String processa(Long idCompra,RetornoGatewayPagamento retornoGatewayPagamento) {
+		//1
 		Compra compra = manager.find(Compra.class, idCompra);
-		compra.adicionaTransacao(request);
-		
+		compra.adicionaTransacao(retornoGatewayPagamento);		
 		manager.merge(compra);
 		
-		return compra.toString();
+		return compra.toString();		
 	}
 
 }

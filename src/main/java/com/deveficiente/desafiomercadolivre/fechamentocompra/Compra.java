@@ -83,7 +83,7 @@ public class Compra {
 		return produtoEscolhido.getDono();
 	}
 
-	public void adicionaTransacao(@Valid RetornoPagseguroRequest request) {
+	public void adicionaTransacao(@Valid RetornoGatewayPagamento request) {
 		Transacao novaTransacao = request.toTransacao(this);
 		
 		//1
