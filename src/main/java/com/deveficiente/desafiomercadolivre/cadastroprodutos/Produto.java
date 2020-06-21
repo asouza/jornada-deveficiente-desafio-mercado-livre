@@ -31,6 +31,7 @@ import com.deveficiente.desafiomercadolivre.adicionapergunta.Pergunta;
 import com.deveficiente.desafiomercadolivre.cadastrocategorias.Categoria;
 import com.deveficiente.desafiomercadolivre.cadastrousuario.Usuario;
 import com.deveficiente.desafiomercadolivre.detaheproduto.DetalheProdutoCaracteristica;
+import com.deveficiente.desafiomercadolivre.detaheproduto.Opinioes;
 
 @Entity
 public class Produto {
@@ -171,10 +172,9 @@ public class Produto {
 		return this.perguntas.stream().map(funcaoMapeadora)
 				.collect(Collectors.toCollection(TreeSet :: new));
 	}
-	
-	public <T> Set<T> mapeiaOpinioes(Function<Opiniao, T> funcaoMapeadora) {
-		return this.opinioes.stream().map(funcaoMapeadora)
-				.collect(Collectors.toSet());
+
+	public Opinioes getOpinioes() {
+		return new Opinioes(this.opinioes);
 	}
 
 

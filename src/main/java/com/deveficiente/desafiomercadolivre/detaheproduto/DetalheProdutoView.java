@@ -5,8 +5,8 @@ import java.util.Map;
 import java.util.OptionalDouble;
 import java.util.Set;
 import java.util.SortedSet;
-import java.util.stream.IntStream;
 
+import com.deveficiente.desafiomercadolivre.cadastroprodutos.Opinioes;
 import com.deveficiente.desafiomercadolivre.cadastroprodutos.Produto;
 
 public class DetalheProdutoView {
@@ -20,6 +20,7 @@ public class DetalheProdutoView {
 	private SortedSet<String> perguntas;
 	private Set<Map<String,String>> opinioes;
 	private double mediaNotas;
+	private int total;
 
 	public DetalheProdutoView(Produto produto) {
 		this.descricao = produto.getDescricao();
@@ -32,21 +33,24 @@ public class DetalheProdutoView {
 		this.linksImagens = produto.mapeiaImagens(imagem -> imagem.getLink());
 		//1
 		this.perguntas = produto.mapeiaPerguntas(pergunta -> pergunta.getTitulo());
+		
 		//1
-		this.opinioes = produto.mapeiaOpinioes(opiniao -> {
+		Opinioes opinioes = produto.getOpinioes();		
+		//1
+		this.opinioes = opinioes.mapeiaOpinioes(opiniao -> {
 			return Map.of("titulo",opiniao.getTitulo(),"descricao",opiniao.getDescricao());
 		});
 		
-		//1
-		Set<Integer> notas = produto.mapeiaOpinioes(opiniao -> opiniao.getNota());
-		
-		//1
-		OptionalDouble possivelMedia = notas.stream().mapToInt(nota -> nota).average();
-		//1
-		this.mediaNotas = possivelMedia.orElseGet(() -> 0.0);
+
+		this.mediaNotas = opinioes.media();
+		this.total = opinioes.total();
 				
 		
 
+	}
+	
+	public int getTotal() {
+		return total;
 	}
 	
 	public double getMediaNotas() {
