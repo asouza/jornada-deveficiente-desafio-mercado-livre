@@ -26,6 +26,7 @@ import javax.validation.constraints.Size;
 import org.hibernate.validator.constraints.Length;
 import org.springframework.util.Assert;
 
+import com.deveficiente.desafiomercadolivre.adicionaopiniao.Opiniao;
 import com.deveficiente.desafiomercadolivre.adicionapergunta.Pergunta;
 import com.deveficiente.desafiomercadolivre.cadastrocategorias.Categoria;
 import com.deveficiente.desafiomercadolivre.cadastrousuario.Usuario;
@@ -61,6 +62,8 @@ public class Produto {
 	@OneToMany(mappedBy = "produto")
 	@OrderBy("titulo asc")
 	private SortedSet<Pergunta> perguntas = new TreeSet<>();
+	@OneToMany(mappedBy = "produto", cascade = CascadeType.MERGE)
+	private Set<Opiniao> opinioes = new HashSet<>();
 
 	@Deprecated
 	public Produto() {
@@ -153,10 +156,6 @@ public class Produto {
 		return valor;
 	}
 
-	public Set<CaracteristicaProduto> getCaracteristicas() {
-		return this.caracteristicas;
-	}
-
 	public <T> Set<T> mapeiaCaracteristicas(
 			Function<CaracteristicaProduto, T> funcaoMapeadora) {
 		return this.caracteristicas.stream().map(funcaoMapeadora)
@@ -172,6 +171,12 @@ public class Produto {
 		return this.perguntas.stream().map(funcaoMapeadora)
 				.collect(Collectors.toCollection(TreeSet :: new));
 	}
+	
+	public <T> Set<T> mapeiaOpinioes(Function<Opiniao, T> funcaoMapeadora) {
+		return this.opinioes.stream().map(funcaoMapeadora)
+				.collect(Collectors.toSet());
+	}
+
 
 
 }
