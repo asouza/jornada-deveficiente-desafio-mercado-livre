@@ -1,5 +1,7 @@
 package com.deveficiente.desafiomercadolivre.adicionapergunta;
 
+import java.time.LocalDate;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -23,6 +25,7 @@ public class Pergunta {
 	private @NotNull @Valid Usuario interessada;
 	@ManyToOne
 	private @NotNull @Valid Produto produto;
+	private LocalDate instante;
 
 	public Pergunta(@NotBlank String titulo,
 			@NotNull @Valid Usuario interessada,
@@ -30,12 +33,21 @@ public class Pergunta {
 				this.titulo = titulo;
 				this.interessada = interessada;
 				this.produto = produto;
+				this.instante = LocalDate.now();
 	}
 
 	@Override
 	public String toString() {
 		return "Pergunta [id=" + id + ", titulo=" + titulo + ", interessada="
 				+ interessada + ", produto=" + produto + "]";
+	}
+
+	public Usuario getInteressada() {
+		return interessada;
+	}
+
+	public Usuario getDonoProduto() {
+		return produto.getDono();
 	}
 	
 	

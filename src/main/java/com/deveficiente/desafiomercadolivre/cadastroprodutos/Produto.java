@@ -127,4 +127,8 @@ public class Produto {
 		return this.dono.equals(possivelDono);
 	}
 
+	public Usuario getDono() {
+		return this.dono;
+	}
+
 }

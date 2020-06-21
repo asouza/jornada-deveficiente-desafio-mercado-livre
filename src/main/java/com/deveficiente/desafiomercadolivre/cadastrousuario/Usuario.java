@@ -13,7 +13,6 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.PastOrPresent;
 
 import org.hibernate.validator.constraints.Length;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.util.Assert;
 import org.springframework.util.StringUtils;
 
@@ -48,6 +47,10 @@ public class Usuario {
 	public String toString() {
 		return "Usuario [id=" + id + ", email=" + email + ", senha=" + senha
 				+ "]";
+	}
+
+	public String getEmail() {
+		return this.email;
 	}
 
 }
