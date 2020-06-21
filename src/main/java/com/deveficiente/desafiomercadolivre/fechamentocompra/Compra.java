@@ -10,6 +10,8 @@ import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
 
+import org.springframework.web.util.UriComponentsBuilder;
+
 import com.deveficiente.desafiomercadolivre.cadastroprodutos.Produto;
 import com.deveficiente.desafiomercadolivre.cadastrousuario.Usuario;
 
@@ -33,14 +35,14 @@ public class Compra {
 	@NotNull
 	private GatewayPagamento gatewayPagamento;
 
-	public Compra(@NotNull @Valid Produto produtoASerComprado, @Positive int quantidade,
-			@NotNull @Valid Usuario comprador, GatewayPagamento gatewayPagamento) {
-				this.produtoEscolhido = produtoASerComprado;
-				this.quantidade = quantidade;
-				this.comprador = comprador;
-				this.gatewayPagamento = gatewayPagamento;
+	public Compra(@NotNull @Valid Produto produtoASerComprado,
+			@Positive int quantidade, @NotNull @Valid Usuario comprador,
+			GatewayPagamento gatewayPagamento) {
+		this.produtoEscolhido = produtoASerComprado;
+		this.quantidade = quantidade;
+		this.comprador = comprador;
+		this.gatewayPagamento = gatewayPagamento;
 	}
-
 
 	@Override
 	public String toString() {
@@ -49,11 +51,21 @@ public class Compra {
 				+ "]";
 	}
 
-
 	public Long getId() {
 		return id;
 	}
-	
-	
+
+	public String urlRedirecionamento(
+			UriComponentsBuilder uriComponentsBuilder) {
+		return this.gatewayPagamento.criaUrlRetorno(this, uriComponentsBuilder);
+	}
+
+	public Usuario getComprador() {
+		return comprador;
+	}
+
+	public Usuario getDonoProduto() {
+		return produtoEscolhido.getDono();
+	}
 
 }

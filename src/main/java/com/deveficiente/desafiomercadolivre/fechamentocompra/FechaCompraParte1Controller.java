@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import com.deveficiente.desafiomercadolivre.adicionapergunta.Emails;
 import com.deveficiente.desafiomercadolivre.cadastroprodutos.Produto;
 import com.deveficiente.desafiomercadolivre.cadastrousuario.Usuario;
 import com.deveficiente.desafiomercadolivre.cadastrousuario.UsuarioRepository;
@@ -24,6 +25,9 @@ public class FechaCompraParte1Controller {
 	@Autowired
 	// 1
 	private UsuarioRepository usuarioRepository;
+	@Autowired
+	//1
+	private Emails emails;
 
 	@PostMapping(value = "/compras")
 	@Transactional
@@ -49,23 +53,10 @@ public class FechaCompraParte1Controller {
 			Compra novaCompra = new Compra(produtoASerComprado, quantidade,
 					comprador, gateway);
 			manager.persist(novaCompra);
-
-			//1
-			if (gateway.equals(GatewayPagamento.pagseguro)) {
-				String urlRetornoPagseguro = uriComponentsBuilder.path("/retorno-pagseguro/{id}")
-						.buildAndExpand(novaCompra.getId()).toString();
-
-				return "pagseguro.com/" + novaCompra.getId()
-						+ "?redirectUrl="+urlRetornoPagseguro;
-			}
-			//1
-			else {
-				String urlRetornoPaypal = uriComponentsBuilder.path("/retorno-paypal/{id}")
-						.buildAndExpand(novaCompra.getId()).toString();
-
-				return "paypal.com/" + novaCompra.getId()
-						+ "?redirectUrl="+urlRetornoPaypal;
-			}			
+			emails.novaCompra(novaCompra);
+			
+			return novaCompra.urlRedirecionamento(uriComponentsBuilder);
+									
 		}
 
 		BindException problemaComEstoque = new BindException(request,
