@@ -1,10 +1,13 @@
 package com.deveficiente.desafiomercadolivre.fechamentocompra;
 
+import java.util.Set;
+
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
 import javax.validation.Valid;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -14,6 +17,9 @@ public class FechamentoCompraParte2Controller {
 	
 	@PersistenceContext
 	private EntityManager manager;
+	@Autowired
+	//1	
+	private EventosNovaCompra eventosNovaCompra;
 
 	@PostMapping(value = "/retorno-pagseguro/{id}")
 	@Transactional
@@ -34,7 +40,8 @@ public class FechamentoCompraParte2Controller {
 		//1
 		Compra compra = manager.find(Compra.class, idCompra);
 		compra.adicionaTransacao(retornoGatewayPagamento);		
-		manager.merge(compra);
+		manager.merge(compra);		
+		eventosNovaCompra.processa(compra);
 		
 		return compra.toString();		
 	}

@@ -91,13 +91,23 @@ public class Compra {
 				"Já existe uma transacao igual a essa processada "
 						+ novaTransacao);
 		//1
+		Assert.isTrue(transacoesConcluidasComSucesso().isEmpty(),"Esse compra já foi concluída com sucesso");
+
+		this.transacoes.add(novaTransacao);
+	}
+
+	private Set<Transacao> transacoesConcluidasComSucesso() {
 		Set<Transacao> transacoesConcluidasComSucesso = this.transacoes.stream()
 				.filter(Transacao::concluidaComSucesso)
 				.collect(Collectors.toSet());
 		
-		Assert.isTrue(transacoesConcluidasComSucesso.isEmpty(),"Esse compra já foi concluída com sucesso");
+		Assert.isTrue(transacoesConcluidasComSucesso.size() <= 1,"Deu ruim deu ruim deu ruim, tem mais de uma transacao concluida com sucesso aqui na compra "+this.id);
+		
+		return transacoesConcluidasComSucesso;
+	}
 
-		this.transacoes.add(novaTransacao);
+	public boolean processadaComSucesso() {
+		return !transacoesConcluidasComSucesso().isEmpty();
 	}
 
 }
