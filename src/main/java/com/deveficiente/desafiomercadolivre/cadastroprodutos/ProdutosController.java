@@ -39,7 +39,7 @@ public class ProdutosController {
 		webDataBinder.addValidators(new ProibeCaracteristicaComNomeIgualValidator());
 	}
 
-	@PostMapping(value = "/produtos")
+	@PostMapping(value = "/api/produtos")
 	@Transactional
 	//1
 	public String cria(@RequestBody @Valid NovoProdutoRequest request) {

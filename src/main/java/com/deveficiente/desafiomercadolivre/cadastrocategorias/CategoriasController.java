@@ -15,7 +15,7 @@ public class CategoriasController {
 	@PersistenceContext
 	private EntityManager manager;
 
-	@PostMapping(value = "/categorias")
+	@PostMapping(value = "/api/categorias")
 	@Transactional
 	public String postMethodName(@RequestBody @Valid NovaCategoriaRequest request) {
 		Categoria categoria = request.toModel(manager);

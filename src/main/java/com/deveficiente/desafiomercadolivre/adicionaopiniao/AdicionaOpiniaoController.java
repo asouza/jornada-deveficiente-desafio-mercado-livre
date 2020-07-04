@@ -24,7 +24,7 @@ public class AdicionaOpiniaoController {
 	//1
 	private UsuarioRepository usuarioRepository;
 
-	@PostMapping(value = "/produtos/{id}/opiniao")
+	@PostMapping(value = "/api/produtos/{id}/opiniao")
 	@Transactional
 	//1
 	public String adiciona(@RequestBody @Valid NovaOpiniaoRequest request, @PathVariable("id") Long id) {

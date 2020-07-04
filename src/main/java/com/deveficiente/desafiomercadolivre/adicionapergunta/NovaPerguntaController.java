@@ -28,7 +28,7 @@ public class NovaPerguntaController {
 	@Autowired
 	private Emails emails;	
 
-	@PostMapping(value = "/produtos/{id}/perguntas")
+	@PostMapping(value = "/api/produtos/{id}/perguntas")
 	@Transactional
 	//1
 	public String cria(@RequestBody @Valid NovaPerguntaRequest request, @PathVariable("id") Long id) {

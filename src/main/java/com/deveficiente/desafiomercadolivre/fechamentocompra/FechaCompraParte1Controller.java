@@ -29,7 +29,7 @@ public class FechaCompraParte1Controller {
 	//1
 	private Emails emails;
 
-	@PostMapping(value = "/compras")
+	@PostMapping(value = "/api/compras")
 	@Transactional
 	//1
 	public String cria(@RequestBody @Valid NovaCompraRequest request,
