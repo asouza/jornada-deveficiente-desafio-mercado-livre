@@ -1,5 +1,7 @@
 package com.deveficiente.desafiomercadolivre.compartilhado.seguranca;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -21,10 +23,14 @@ public class UserAuthenticationController {
 	
 	@Autowired
 	private TokenManager tokenManager;
+	
+	private static final Logger log = LoggerFactory
+			.getLogger(UserAuthenticationController.class);
+
 
 	@PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, 
 			produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<AuthenticationTokenOutputDto> authenticate(@RequestBody LoginInputDto loginInfo) {
+	public ResponseEntity<String> authenticate(@RequestBody LoginInputDto loginInfo) {
 	
 		UsernamePasswordAuthenticationToken authenticationToken = loginInfo.build();
 
@@ -32,11 +38,10 @@ public class UserAuthenticationController {
 			Authentication authentication = authManager.authenticate(authenticationToken); 			
 			String jwt = tokenManager.generateToken(authentication);
 			
-			AuthenticationTokenOutputDto tokenResponse = new AuthenticationTokenOutputDto("Bearer", jwt);
-			return ResponseEntity.ok(tokenResponse);
+			return ResponseEntity.ok(jwt);
 		
 		} catch (AuthenticationException e) {
-			e.printStackTrace();
+			log.error("[Autenticacao] {}",e);
 			return ResponseEntity.badRequest().build();
 		}
 		
