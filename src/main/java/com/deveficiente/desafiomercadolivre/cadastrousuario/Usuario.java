@@ -48,6 +48,10 @@ public class Usuario {
 		return "Usuario [id=" + id + ", email=" + email + ", senha=" + senha
 				+ "]";
 	}
+	
+	public String getSenha() {
+		return senha;
+	}
 
 	public String getEmail() {
 		return this.email;
