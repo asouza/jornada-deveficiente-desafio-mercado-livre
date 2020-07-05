@@ -87,11 +87,11 @@ public class Compra {
 		Transacao novaTransacao = request.toTransacao(this);
 		
 		//1
-		Assert.isTrue(!this.transacoes.contains(novaTransacao),
+		Assert.state(!this.transacoes.contains(novaTransacao),
 				"Já existe uma transacao igual a essa processada "
 						+ novaTransacao);
 		//1
-		Assert.isTrue(transacoesConcluidasComSucesso().isEmpty(),"Esse compra já foi concluída com sucesso");
+		Assert.state(transacoesConcluidasComSucesso().isEmpty(),"Esse compra já foi concluída com sucesso");
 
 		this.transacoes.add(novaTransacao);
 	}
