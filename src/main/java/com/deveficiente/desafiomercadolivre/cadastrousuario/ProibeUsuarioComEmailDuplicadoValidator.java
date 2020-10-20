@@ -17,8 +17,11 @@ import org.springframework.validation.Validator;
 public class ProibeUsuarioComEmailDuplicadoValidator implements Validator {
 
 	//1
-	@Autowired
 	private UsuarioRepository usuarioRepository;
+	
+	public ProibeUsuarioComEmailDuplicadoValidator(UsuarioRepository usuarioRepository) {
+		this.usuarioRepository = usuarioRepository;
+	}
 
 	@Override
 	public boolean supports(Class<?> clazz) {
