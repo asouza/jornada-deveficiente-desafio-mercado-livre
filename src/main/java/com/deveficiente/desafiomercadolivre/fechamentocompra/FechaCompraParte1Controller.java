@@ -20,18 +20,23 @@ import com.deveficiente.desafiomercadolivre.cadastrousuario.UsuarioRepository;
 @RestController
 public class FechaCompraParte1Controller {
 
-	@PersistenceContext
 	private EntityManager manager;
-	@Autowired
 	// 1
 	private UsuarioRepository usuarioRepository;
-	@Autowired
-	//1
+	// 1
 	private Emails emails;
+
+	public FechaCompraParte1Controller(EntityManager manager,
+			UsuarioRepository usuarioRepository, Emails emails) {
+		super();
+		this.manager = manager;
+		this.usuarioRepository = usuarioRepository;
+		this.emails = emails;
+	}
 
 	@PostMapping(value = "/compras")
 	@Transactional
-	//1
+	// 1
 	public String cria(@RequestBody @Valid NovaCompraRequest request,
 			UriComponentsBuilder uriComponentsBuilder) throws BindException {
 
@@ -46,17 +51,17 @@ public class FechaCompraParte1Controller {
 		if (abateu) {
 			Usuario comprador = usuarioRepository
 					.findByEmail("seuemail2@deveficiente.com").get();
-			//1
+			// 1
 			GatewayPagamento gateway = request.getGateway();
 
-			//1
+			// 1
 			Compra novaCompra = new Compra(produtoASerComprado, quantidade,
 					comprador, gateway);
 			manager.persist(novaCompra);
 			emails.novaCompra(novaCompra);
-			
+
 			return novaCompra.urlRedirecionamento(uriComponentsBuilder);
-									
+
 		}
 
 		BindException problemaComEstoque = new BindException(request,

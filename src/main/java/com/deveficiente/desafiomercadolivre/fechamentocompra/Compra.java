@@ -10,6 +10,7 @@ import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
 
+import org.springframework.util.Assert;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import com.deveficiente.desafiomercadolivre.cadastroprodutos.Produto;
@@ -52,6 +53,7 @@ public class Compra {
 	}
 
 	public Long getId() {
+		Assert.notNull(id,"Id tem que está preencido aqui");
 		return id;
 	}
 
